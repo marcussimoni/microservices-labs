@@ -1,0 +1,82 @@
+openapi: 3.0.4
+info:
+  title: Payment Gateway Mockoon
+  description: |-
+    Mock service to simulate a payment gateway
+  termsOfService: https://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+
+tags:
+  - name: transactions
+    description: Process payments
+    externalDocs:
+      description: Find out more
+      url: https://swagger.io
+paths:
+  /transactions:
+    post:
+      tags:
+        - transactions
+      summary: process payment.
+      description: process payment.
+      operationId: addPet
+      requestBody:
+        description: process payment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+    
+components:
+  schemas:
+    TransactionRequest:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+          example: 7
+      xml:
+        name: order
+    TransactionResponse:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+          example: 7
+        status:
+          type: string
+          enum: 
+            - PAID 
+            - DENIED
+        timestamp:
+          type: string
+          format: date-time
+      xml:
+        name: order
+  

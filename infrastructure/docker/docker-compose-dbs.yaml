@@ -1,0 +1,79 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgresql-service
+    restart: always
+    environment:
+      POSTGRES_DB: master
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/18/docker
+      - ../configs/postgres/db-init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h localhost -p 5432"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s  
+    command:  
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_replication_slots=4"
+      - "-c"
+      - "max_wal_senders=4"
+    networks:
+      - infra_network
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "15432:80"
+    volumes:
+      - ../data/pgadmin:/var/lib/pgadmin
+      - ../configs/pgadmin/servers.json:/pgadmin4/servers.json
+    depends_on:
+      postgres:
+        condition: service_healthy  
+    networks:
+      - infra_network  
+     
+  redis:
+    image: redis:alpine3.22
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ../data/redis:/data
+    restart: always
+    networks:
+      - infra_network
+
+  mongodb:
+    # image: mongo:8.0.15
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ../data/mongodb:/data/db
+    networks:
+      - infra_network
+
+networks:
+  infra_network:
+    external: true

@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: email-sender-postgresql-service
+    restart: always
+    #    shm_size: 128mb
+    environment:
+      POSTGRES_DB: emailsenderdb
+      POSTGRES_USER: emailsenderuser
+      POSTGRES_PASSWORD: emailsenderpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/18/docker

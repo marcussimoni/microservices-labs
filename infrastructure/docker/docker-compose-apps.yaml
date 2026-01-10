@@ -1,0 +1,110 @@
+services:
+  # applications
+  bookstore-service:
+    image: bookstore-service:latest
+    container_name: bookstore-service
+    environment:
+      POSTGRES_DB: bookstoredb
+      POSTGRES_USER: bookstoreuser
+      POSTGRES_PASSWORD: bookstorepassword
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres
+      RABBITMQ_HOST: rabbitmq
+      USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_SERVICE_NAME: bookstore-service
+      OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
+      OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
+      OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true       
+    networks:
+      - infra_network
+
+  email-sender-service:
+    image: email-sender-service:latest
+    container_name: email-sender-service
+    environment:
+      MONGODB_USER: root
+      MONGODB_PASSWORD: root
+      MONGODB_HOST: mongodb
+      MAILHOG_HOST: mailhog
+      RABBITMQ_HOST: rabbitmq
+      USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_SERVICE_NAME: email-sender-service
+      OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
+      OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
+      OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    networks:
+      - infra_network
+
+  user-management-service:
+    image: user-management-service:latest
+    container_name: user-management-service
+    environment:
+      POSTGRES_DB: usermanagementdb
+      POSTGRES_USER: usermanagementuser
+      POSTGRES_PASSWORD: usermanagementpassword
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_SERVICE_NAME: user-management-service
+      OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
+      OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
+      OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+    networks:
+      - infra_network
+
+  payments-service:
+    image: payments-service:latest
+    container_name: payments-service
+    environment:
+      POSTGRES_DB: paymentsdb
+      POSTGRES_USER: paymentsuser
+      POSTGRES_PASSWORD: paymentspassword
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres
+      RABBITMQ_HOST: rabbitmq
+      PAYMENT_GATEWAY: http://mockoon:3001
+      USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_SERVICE_NAME: payments-service
+      OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
+      OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
+      OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+    networks:
+      - infra_network
+
+  shipping-service:
+    image: shipping-service:latest
+    container_name: shipping-service
+    environment:
+      POSTGRES_DB: shippingdb
+      POSTGRES_USER: shippinguser
+      POSTGRES_PASSWORD: shippingpassword
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: postgres    
+      RABBITMQ_HOST: rabbitmq
+      USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
+      BOOKSTORE_HOST: http://bookstore-service:8080/bookstore-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_SERVICE_NAME: shipping-service
+      OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
+      OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
+      OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+    networks:
+      - infra_network
+
+networks:
+  infra_network:
+    external: true

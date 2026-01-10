@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgresql-service
+    restart: always
+#    shm_size: 128mb
+    environment:
+      POSTGRES_DB: usermanagementdb
+      POSTGRES_USER: usermanagementuser
+      POSTGRES_PASSWORD: usermanagementpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/18/docker
+    networks:
+      - brag_network
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./data/redis:/data
+    restart: always
+
+volumes:
+  postgres_data:
+
+networks:
+  brag_network:
+    driver: bridge

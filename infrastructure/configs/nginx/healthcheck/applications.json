@@ -1,0 +1,68 @@
+{
+    "targets": [
+        {
+            "name": "pgadmin",
+            "url": "http://pgadmin:80/misc/ping"
+        },
+        {
+            "name": "grafana",
+            "url": "http://grafana:3000/api/health"
+        },
+        {
+            "name": "rabbitmq",
+            "url": "http://rabbitmq:15692/metrics"
+        },
+        {
+            "name": "postgresexporter",
+            "url": "http://postgres-exporter:9187/metrics"
+        },
+        {
+            "name": "mongoexporter",
+            "url": "http://mongodb-exporter:9216/metrics"
+        },
+        {
+            "name": "mailhog",
+            "url": "http://mailhog:8025"
+        },
+        {
+            "name": "jaeger",
+            "url": "http://jaeger:14269/jaeger"
+        },
+        {
+            "name": "prometheus",
+            "url": "http://prometheus:9090/-/healthy"
+        },
+        {
+            "name": "bookstore-service",
+            "url": "http://bookstore-service:8080/bookstore-service/actuator/health"
+        },
+        {
+            "name": "shipping-service",
+            "url": "http://shipping-service:8084/shipping-service/actuator/health"
+        },
+        {
+            "name": "email-sender-service",
+            "url": "http://email-sender-service:8081/email-sender-service/actuator/health"
+        },
+        {
+            "name": "payments-service",
+            "url": "http://payments-service:8083/payments-service/actuator/health"
+        },
+        {
+            "name": "user-management-service",
+            "url": "http://user-management-service:8082/user-management-service/actuator/health"
+        },
+        {
+            "name": "bookstore",
+            "url": "http://nginx-server:80/bookstore"
+        },
+        {
+            "name": "kafka-ui",
+            "url": "http://kafka-ui:8080/actuator/health"
+        },
+        {
+            "name": "kafka-connect",
+            "url": "http://kafka-connect:8083"
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bookstore-service
+  shutdown: graceful
+  graceful-shutdown:
+    timeout: 30s
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
+
+spring:
+  application:
+    name: bookstore-service
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:bookstoredb}
+    username: ${POSTGRES_USER:bookstoreuser}
+    password: ${POSTGRES_PASSWORD:bookstorepassword}
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximumPoolSize: 5
+      minimumIdle: 1
+      idleTimeout: 30000
+      maxLifetime: 1800000
+      connectionTimeout: 30000
+      pool-name: bookstore-HikariCP
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: bookstore
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  amqp:
+    deserialization:
+      trust:
+        all: true
+
+  flyway:
+    default-schema: bookstore
+
+applications:
+  user-management:
+    host: ${USER_MANAGEMENT_HOST:http://localhost:8082}
+
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+management:
+  info:
+    application:
+      name: bookstore-service
+      description: bookstore app
+    javaVersion: ${java.version}
+    javaVendor: ${java.vendor}
+    env:
+      enabled: true
+    build:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoints:
+    startup:
+      enabled: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always            
+  tracing:
+    sampling:
+      probability: '0.5'
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  # api-docs:
+  #   path: /bookstore-service/v3/api-docs
+  # use-root-path: false  

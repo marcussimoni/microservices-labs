@@ -1,0 +1,87 @@
+
+server:
+  port: 8082
+  servlet:
+    context-path: /user-management-service
+  shutdown: graceful  # habilita shutdown gracioso
+  graceful-shutdown:
+    timeout: 30s
+
+spring:
+  application:
+    name: user-management
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:usermanagementdb}
+    username: ${POSTGRES_USER:usermanagementuser}
+    password: ${POSTGRES_PASSWORD:usermanagementpassword}
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximumPoolSize: 5
+      minimumIdle: 1
+      idleTimeout: 30000
+      maxLifetime: 1800000
+      connectionTimeout: 30000
+      pool-name: user-management-HikariCP
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: user_management
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      cache-null-values: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      timeout: 2000ms
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+
+  flyway:
+    default-schema: user_management
+
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data.redis: INFO
+
+management:
+  info:
+    application:
+      name: user-management-service
+      description: User management Service
+    javaVersion: ${java.version}
+    javaVendor: ${java.vendor}
+    env:
+      enabled: true
+    build:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always            
+  tracing:
+    sampling:
+      probability: '0.5'
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

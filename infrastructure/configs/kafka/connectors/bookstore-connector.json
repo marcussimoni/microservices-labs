@@ -1,0 +1,24 @@
+{
+    "name": "postgres-connector-source",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "bookstoredb",
+        "plugin.name": "pgoutput",
+        "publication.name": "dbz_publication",
+        "publication.autocreate.mode": "disabled",
+        "slot.name": "bookstore_purchases_slot",
+        "snapshot.mode": "initial",
+        "table.include.list": "bookstore.purchases",
+        "topic.prefix": "postgres",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+        "schema.history.internal.kafka.topic": "history.purchases",
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "false"
+    }
+}

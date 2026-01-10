@@ -1,0 +1,90 @@
+
+server:
+  port: 8083
+  servlet:
+    context-path: /payments-service
+  shutdown: graceful
+  graceful-shutdown:
+    timeout: 30s
+
+spring:
+  application:
+    name: payments
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:paymentsdb}
+    username: ${POSTGRES_USER:paymentsuser}
+    password: ${POSTGRES_PASSWORD:paymentspassword}
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximumPoolSize: 5
+      minimumIdle: 1
+      idleTimeout: 30000
+      maxLifetime: 1800000
+      connectionTimeout: 30000
+      pool-name: payments-HikariCP
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: payments
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+
+  flyway:
+    default-schema: payments
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+applications:
+  payment-gateway:
+    url: ${PAYMENT_GATEWAY:http://localhost:3001}
+  user-management:
+    host: ${USER_MANAGEMENT_HOST:http://localhost:8082}
+
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data.redis: INFO
+
+management:
+  info:
+    application:
+      name: payments-service
+      description: Payments Service
+    javaVersion: ${java.version}
+    javaVendor: ${java.vendor}
+    env:
+      enabled: true
+    build:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always      
+  tracing:
+    sampling:
+      probability: '0.5'
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

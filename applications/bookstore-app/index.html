@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bookstore</h1>
+        <div>
+            <nav>
+                <button id="viewBooks">View All Books</button>
+                <button id="viewPurchased">My Purchases</button>
+            </nav>
+            <div id="authenticated-user">
+                <span id="customerName"></span> |
+                <span id="customerEmail"></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="booksList" class="content">
+            <!-- Books will be loaded here -->
+        </div>
+
+        <div id="bookDetails" class="content hidden">
+            <button id="backToList">← Back to List</button>
+            <div id="bookInfo"></div>
+        </div>
+
+        <div id="purchasedBooks" class="content hidden">
+            <h2>My Purchased Books</h2>
+            <div id="purchasedList"></div>
+        </div>
+    </main>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
