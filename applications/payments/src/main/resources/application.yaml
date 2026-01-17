@@ -25,7 +25,7 @@ spring:
       pool-name: payments-HikariCP
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -46,11 +46,24 @@ spring:
     password: guest
     virtual-host: /
 
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+
 applications:
   payment-gateway:
-    url: ${PAYMENT_GATEWAY:http://localhost:3001}
+    url: ${PAYMENT_GATEWAY:http://localhost:3001/}
   user-management:
-    host: ${USER_MANAGEMENT_HOST:http://localhost:8082}
+    host: ${USER_MANAGEMENT_HOST:http://localhost:8082/user-management-service/}
 
 logging:
   level:

@@ -53,7 +53,7 @@ public class SendEmailService {
         HashMap<String, String> params = new HashMap<>();
 
         params.put("name", emailMessage.getUserName());
-        params.put("book", emailMessage.getUserName());
+        params.put("book", emailMessage.getBook());
         params.put("status", emailMessage.getStatus());
         params.put("state", emailMessage.getState());
         params.put("city", emailMessage.getCity());

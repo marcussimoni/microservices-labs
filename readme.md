@@ -70,7 +70,18 @@ sh stop.sh
 
 ## Accessing the Applications
 
-Once the containers are running, you can access the services the Dashboard application: http://localhost.
+Once the containers are running, you can access the services the Dashboard application: http://localhost. There's also a healthcheck in this page to
+check if all applications are online
+
+## Setting up kafka connect connections
+
+After all applications are up along side kafka connect, from ***scripts*** directory
+run the command to configure the connections used by kafka connect.
+
+````
+sh setup-kafka-connect-connections.sh
+````
+
 
 ### Project diagram
 

@@ -1,9 +1,9 @@
 // API Endpoints
-const API_BASE_URL = 'http://localhost/bookstore-service';
+const API_BASE_URL = 'http://localhost:8080/bookstore-service';
 const API_ENDPOINTS = {
     BOOKS: `${API_BASE_URL}/books`,
     PURCHASES: `${API_BASE_URL}/purchases`,
-    AUTHENTICATED_USER: 'http://localhost/user-management-service/users/me'
+    AUTHENTICATED_USER: 'http://localhost:8082/users/me'
 };
 
 // DOM Elements
@@ -215,7 +215,7 @@ function renderPurchasedBooks(purchases) {
                         <h3>${p.book.title}</h3>
                         <p>${p.book.author}</p>
                         <p>Purchased on: ${new Date(p.purchaseDate).toLocaleDateString()}</p>
-                        <P>Payment status: ${p.status}</p>
+                        <P>Order status: ${p.status}</p>
                     </div>
                 </div>
             `).join('')}

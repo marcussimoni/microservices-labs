@@ -36,7 +36,11 @@ async function requestUrls() {
         }
     }
 
-    return results;
+    const allServicesHealth = results.filter(result => !result.ok) !== 0
+
+    return {
+        allServicesHealth, results
+    };
 }
 
 app.get("/health", async (req, res) => {

@@ -3,7 +3,7 @@ package br.com.email_sender.dtos;
 import br.com.email_sender.entities.EmailMessage;
 import br.com.email_sender.entities.EmailTemplate;
 
-public record EmailMessageRequest(
+public record RabbitMQEmailMessageRequest(
         String publicIdentifier,
         String book,
         String status,
@@ -11,9 +11,8 @@ public record EmailMessageRequest(
 ) {
     public EmailMessage toEntity() {
         return new EmailMessage(
-                publicIdentifier,
                 book,
-                status
+                publicIdentifier
         );
     }
 

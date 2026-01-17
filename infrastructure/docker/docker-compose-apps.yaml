@@ -10,6 +10,7 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_HOST: postgres
       RABBITMQ_HOST: rabbitmq
+      KAFKA_SERVER: kafka:9092
       USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
@@ -17,7 +18,9 @@ services:
       OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
       OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
       OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
-      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true       
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    ports:
+      - "8080:8080"    
     networks:
       - infra_network
 
@@ -30,6 +33,7 @@ services:
       MONGODB_HOST: mongodb
       MAILHOG_HOST: mailhog
       RABBITMQ_HOST: rabbitmq
+      KAFKA_SERVER: kafka:9092
       USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
@@ -38,6 +42,8 @@ services:
       OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
       OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
       OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    ports:
+      - "8081:8081"  
     networks:
       - infra_network
 
@@ -57,7 +63,9 @@ services:
       OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
       OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
       OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
-      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    ports:
+      - "8082:8082"  
     networks:
       - infra_network
 
@@ -71,6 +79,7 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_HOST: postgres
       RABBITMQ_HOST: rabbitmq
+      KAFKA_SERVER: kafka:9092
       PAYMENT_GATEWAY: http://mockoon:3001
       USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
@@ -79,7 +88,9 @@ services:
       OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
       OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
       OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
-      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    ports:
+      - "8083:8083"    
     networks:
       - infra_network
 
@@ -93,6 +104,7 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_HOST: postgres    
       RABBITMQ_HOST: rabbitmq
+      KAFKA_SERVER: kafka:9092
       USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
       BOOKSTORE_HOST: http://bookstore-service:8080/bookstore-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
@@ -101,7 +113,9 @@ services:
       OTEL_INSTRUMENTATION_MICROMETER_ENABLED: true
       OTEL_EXPORTER_TOLP_METRICS_ENABLED: true
       OTEL_EXPORTER_TOLP_TRACES_ENABLED: true
-      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true      
+      OTEL_EXPORTER_TOLP_LOGGING_ENABLED: true
+    ports:
+      - "8084:8084"     
     networks:
       - infra_network
 

@@ -1,6 +1,5 @@
 package br.com.email_sender.services;
 
-import br.com.email_sender.dtos.EmailMessageRequest;
 import br.com.email_sender.dtos.UserResponseDTO;
 import br.com.email_sender.entities.EmailMessage;
 import br.com.email_sender.entities.EmailTemplate;
@@ -27,11 +26,9 @@ public class EmailMessageService {
     }
 
     @Transactional
-    public void save(EmailMessageRequest message, EmailTemplate template) {
+    public void save(EmailMessage emailMessage, EmailTemplate template) {
 
-        EmailMessage emailMessage = message.toEntity();
-
-        UserResponseDTO user = userManagementService.getUserById(message.publicIdentifier());
+        UserResponseDTO user = userManagementService.getUserById(emailMessage.getPublicIdentifier());
         emailMessage.setEmail(user.email());
         emailMessage.setUserName(user.name());
         emailMessage.setCity(user.city());

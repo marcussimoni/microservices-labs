@@ -2,7 +2,7 @@ services:
   nginx-server:
     image: nginx:alpine
     container_name: nginx-server
-    restart: unless-stopped
+    restart: always
     ports:
       - "80:80"
     volumes:

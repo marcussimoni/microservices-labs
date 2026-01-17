@@ -4,6 +4,8 @@ import br.com.bookstore.dto.*;
 import br.com.bookstore.model.Book;
 import br.com.bookstore.model.EmailTemplate;
 import br.com.bookstore.model.Purchase;
+import br.com.bookstore.model.PurchaseOutbox;
+import br.com.bookstore.repository.PurchaseOutboxRepository;
 import br.com.bookstore.repository.PurchaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +21,22 @@ import java.util.stream.Collectors;
 public class PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+    private final PurchaseOutboxRepository purchaseOutboxRepository;
     private final BookService bookService;
     private final UserManagementService userManagementService;
-    private final PaymentsQueueService paymentsQueueService;
     private final EmailQueueService emailQueueService;
     private final Logger log = LoggerFactory.getLogger(PurchaseService.class);
 
-    public PurchaseService(PurchaseRepository purchaseRepository, BookService bookService, UserManagementService userManagementService, PaymentsQueueService paymentsQueueService, EmailQueueService emailQueueService) {
+    public PurchaseService(
+            PurchaseRepository purchaseRepository,
+            PurchaseOutboxRepository purchaseOutboxRepository,
+            BookService bookService,
+            UserManagementService userManagementService,
+            EmailQueueService emailQueueService) {
         this.purchaseRepository = purchaseRepository;
+        this.purchaseOutboxRepository = purchaseOutboxRepository;
         this.bookService = bookService;
         this.userManagementService = userManagementService;
-        this.paymentsQueueService = paymentsQueueService;
         this.emailQueueService = emailQueueService;
     }
 
@@ -59,17 +66,13 @@ public class PurchaseService {
 
         bookService.updateBookStock(bookId, -1);
 
+        log.info("Saving outbox message to payment");
+        PurchaseOutbox purchaseOutbox = new PurchaseOutbox(savedPurchase, authenticatedUser.publicIdentifier());
+        purchaseOutboxRepository.save(purchaseOutbox);
+
         log.info("Send message to email-service");
         EmailMessageRequest emailMessageRequest = new EmailMessageRequest(authenticatedUser.publicIdentifier(), purchase.getBook().getTitle(), EmailTemplate.ORDER_RECEIVED);
         emailQueueService.sendToQueue(emailMessageRequest);
-
-        PaymentRequestDTO dto = new PaymentRequestDTO(
-                savedPurchase.getTotalPrice(), savedPurchase.getId(),
-                authenticatedUser.publicIdentifier(), savedPurchase.getBook().getTitle()
-        );
-
-        log.info("Send message to payment-service");
-        paymentsQueueService.sendToQueue(dto);
 
         return PurchaseDTO.fromEntity(savedPurchase);
     }

@@ -1,0 +1,25 @@
+{
+    "name": "postgres-shipping-confirmed-connector-source",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "shippingdb",
+        "plugin.name": "pgoutput",
+        "publication.name": "dbz_publication",
+        "publication.autocreate.mode": "disabled",
+        "slot.name": "shipping_slot",
+        "snapshot.mode": "initial",
+        "table.include.list": "shipping.shipping_confirmed_outbox",
+        "topic.prefix": "postgres",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+        "schema.history.internal.kafka.topic": "history.shipping_confirmed",
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "false",
+        "decimal.handling.mode": "double"
+    }
+}

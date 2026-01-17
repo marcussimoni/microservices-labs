@@ -1,6 +1,5 @@
 package br.com.payment_service.services;
 
-import br.com.payment_service.controllers.PaymentsListener;
 import br.com.payment_service.dtos.*;
 import br.com.payment_service.entities.EmailTemplate;
 import br.com.payment_service.entities.Payments;
@@ -8,6 +7,7 @@ import br.com.payment_service.repositories.PaymentsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,17 +16,18 @@ public class PaymentsService {
 
     private final PaymentsRepository repository;
     private final PaymentGatewayService paymentGatewayService;
-    private final PaymentExchangeService paymentExchangeService;
     private final Logger log = LoggerFactory.getLogger(PaymentsService.class);
     private final UserManagementService userManagementService;
+    private final PaymentOutboxService paymentOutboxService;
 
-    public PaymentsService(PaymentsRepository repository, PaymentGatewayService paymentGatewayService, PaymentExchangeService paymentExchangeService, UserManagementService userManagementService) {
+    public PaymentsService(PaymentsRepository repository, PaymentGatewayService paymentGatewayService, UserManagementService userManagementService, PaymentOutboxService paymentOutboxService) {
         this.repository = repository;
         this.paymentGatewayService = paymentGatewayService;
-        this.paymentExchangeService = paymentExchangeService;
         this.userManagementService = userManagementService;
+        this.paymentOutboxService = paymentOutboxService;
     }
 
+    @Transactional
     public Payments save(PaymentRequestDTO paymentDTO) {
 
         var payment = paymentDTO.toEntity();
@@ -43,19 +44,15 @@ public class PaymentsService {
 
         UserResponseDTO user = userManagementService.getUserById(paymentDTO.publicIdentifier());
 
-        PaymentMessageRequest emailQueueDTO = new PaymentMessageRequest(
+        PaymentRequest paymentRequest = new PaymentRequest(
                 paymentDTO.purchaseId(), user.publicIdentifier(),
                 paymentDTO.book(), paymentResponseDTO.status().name(),
+                paymentDTO.amount(),
+                payment.getStatus(),
                 EmailTemplate.PAYMENT_STATUS);
 
         log.info("Sending message to the payment-exchange");
-        paymentExchangeService.sendToQueue(emailQueueDTO);
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            log.error("Error {0}", e);
-        }
+        paymentOutboxService.savePaymentConfirmed(paymentRequest);
 
         return saved;
 

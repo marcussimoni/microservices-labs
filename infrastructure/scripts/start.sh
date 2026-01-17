@@ -21,8 +21,6 @@ for dockerCompose in "${dockerComposes[@]}"; do
     
 done
 
-curl -X POST  -H  "Content-Type:application/json" http://localhost:9094/connectors -d @../configs/kafka/connectors/bookstore-connector.json
-
 DASHBOARD_URL="http://localhost/dashboard"
 
 # For Linux

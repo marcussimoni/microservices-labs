@@ -33,7 +33,7 @@ async function checkHealthService() {
 
         const services = await response.json();
 
-        services.forEach((service) => {
+        services.results.forEach((service) => {
             updateStatusDashboard(service)
         })
 

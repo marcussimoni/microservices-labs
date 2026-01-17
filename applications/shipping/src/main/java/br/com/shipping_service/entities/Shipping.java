@@ -23,23 +23,15 @@ public class Shipping {
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
-    @Transient
-    private ShippingStatus status;
-
     @Column(name = "public_identifier")
     private String publicIdentifier;
 
     public Shipping() {
         this.sentAt = LocalDateTime.now();
-        this.status = ShippingStatus.CREATED;
     }
 
     public String getState() {
         return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getCity() {
@@ -60,10 +52,6 @@ public class Shipping {
 
     public LocalDateTime getSentAt() {
         return sentAt;
-    }
-
-    public ShippingStatus getStatus() {
-        return status;
     }
 
     public String getPublicIdentifier() {

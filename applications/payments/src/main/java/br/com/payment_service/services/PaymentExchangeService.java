@@ -1,7 +1,7 @@
 package br.com.payment_service.services;
 
 import br.com.payment_service.configs.RabbitMQConfig;
-import br.com.payment_service.dtos.PaymentMessageRequest;
+import br.com.payment_service.dtos.PaymentRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,7 +17,7 @@ public class PaymentExchangeService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendToQueue(PaymentMessageRequest dto) {
+    public void sendToQueue(PaymentRequest dto) {
         rabbitTemplate.convertAndSend(RabbitMQConfig.PAYMENT_EXCHANGE, "", dto);
         log.info("📩 Sent to payment exchange notification to queue: {}", dto);
     }

@@ -30,20 +30,29 @@ public class EmailMessage {
 
     private String status;
 
-    public EmailMessage() {}
+    private String publicIdentifier;
 
-    public EmailMessage(String userName, String email, String book, String status) {
-        this.userName = userName;
-        this.email = email;
+    public EmailMessage() {
+    }
+
+    public EmailMessage(String book, String publicIdentifier) {
         this.book = book;
+        this.publicIdentifier = publicIdentifier;
+        this.status = "WAITING_PAYMENT";
+    }
+
+    public EmailMessage(String book, String publicIdentifier, String status) {
+        this.book = book;
+        this.publicIdentifier = publicIdentifier;
         this.status = status;
     }
 
-    public EmailMessage(String userName, String email, String book) {
-        this.userName = userName;
-        this.email = email;
-        this.book = book;
-        this.status = "WAITING_PAYMENT";
+    public String getPublicIdentifier() {
+        return publicIdentifier;
+    }
+
+    public void setPublicIdentifier(String publicIdentifier) {
+        this.publicIdentifier = publicIdentifier;
     }
 
     public ObjectId getId() {

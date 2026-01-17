@@ -1,0 +1,25 @@
+{
+    "name": "postgres-payments-declined-connector-source",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "paymentsdb",
+        "plugin.name": "pgoutput",
+        "publication.name": "dbz_publication",
+        "publication.autocreate.mode": "disabled",
+        "slot.name": "payments_declined_slot",
+        "snapshot.mode": "initial",
+        "table.include.list": "payments.payment_declined_outbox",
+        "topic.prefix": "postgres",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+        "schema.history.internal.kafka.topic": "history.payments_declined",
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "false",
+        "decimal.handling.mode": "double"
+    }
+}
