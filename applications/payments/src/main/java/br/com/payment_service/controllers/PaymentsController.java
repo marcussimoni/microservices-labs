@@ -1,5 +1,6 @@
 package br.com.payment_service.controllers;
 
+import br.com.payment_service.dtos.PaymentGatewayResponseDTO;
 import br.com.payment_service.dtos.PaymentRequestDTO;
 import br.com.payment_service.dtos.PaymentResponseDTO;
 import br.com.payment_service.entities.Payments;
@@ -84,4 +85,10 @@ public class PaymentsController {
         List<Payments> payments = service.findByPurchaseIds(purchaseIds);
         return ResponseEntity.ok(payments.stream().map(PaymentResponseDTO::fromEntity).toList());
     }
+
+    @GetMapping("all")
+    public List<PaymentGatewayResponseDTO> findAll() {
+        return service.findPayments();
+    }
+
 }

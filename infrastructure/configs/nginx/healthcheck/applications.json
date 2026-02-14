@@ -63,6 +63,14 @@
         {
             "name": "kafka-connect",
             "url": "http://kafka-connect:8083"
+        },
+        {
+            "name": "redis-commander",
+            "url": "http://redis-commander:8081"
+        },
+        {
+            "name": "mockoon",
+            "url": "http://mockoon:3001/health"
         }
     ]
 }

@@ -3,25 +3,34 @@ services:
     image: mailhog/mailhog:latest
     restart: always
     container_name: mailhog
-    entrypoint: ["/bin/sh", "-c", "MailHog &>/dev/null"]
+    entrypoint: [ "/bin/sh", "-c", "MailHog &>/dev/null" ]
     ports:
       - 1025:1025
       - 8025:8025
     networks:
       - infra_network
-
   mockoon:
     image: 'mockoon/cli:latest'
     container_name: mockoon
     command: '--data data --port 3001'
     volumes:
       - type: bind
-        source: ../configs/mockoon/data.yaml
+        source: ../configs/mockoon/environment.json
         target: /data
     ports:
       - '3001:3001'
     networks:
       - infra_network
+  # mockoon:
+  #   image: 'mockoon/cli:latest'
+  #   container_name: mockoon
+  #   command: --data data --port 3001
+  #   volumes:
+  #     - ../configs/mockoon/environment.json:/data/environment.json
+  #   ports:
+  #     - '3001:3001'
+  #   networks:
+  #     - infra_network
 
 networks:
   infra_network:

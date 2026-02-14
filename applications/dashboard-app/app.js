@@ -1,8 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     healthCheck();
+    footer()
 
 });
+
+function footer() {
+    const date = new Date();
+    document.getElementById("footer-year").textContent = date.getFullYear()
+}
 
 async function healthCheck() {
 
@@ -43,8 +49,6 @@ async function checkHealthService() {
 
 function updateStatusDashboard(service) {
     let element = document.getElementById(service.name);
-    console.log(element)
-    console.log(service)
     if (service.ok) {
         element.title = "Service is Health"
         element.className = "left-space bi bi-check-circle health"

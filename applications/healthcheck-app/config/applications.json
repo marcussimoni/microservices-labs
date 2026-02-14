@@ -63,6 +63,10 @@
         {
             "name": "kafka-connect",
             "url": "http://kafka-connect:9094"
+        },
+        {
+            "name": "redis-commander",
+            "url": "http://redis-commander:8081"
         }
     ]
 }

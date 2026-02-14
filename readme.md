@@ -36,7 +36,6 @@ root
 	├── Kafka                # Kafka Broker
 	├── Kafka Connect		 # Kafka Connect
 	├── Kafka UI             # Kafka GUI
-	├── Mockoon              # Fake api to mock request
 	├── Mailhog              # Mail testing tool
 	└── Mockoon              # Fake api to mock request
 ```
@@ -70,8 +69,7 @@ sh stop.sh
 
 ## Accessing the Applications
 
-Once the containers are running, you can access the services the Dashboard application: http://localhost. There's also a healthcheck in this page to
-check if all applications are online
+Once the containers are running, you can access the services the Dashboard application: http://localhost. There's also a healthcheck in this page to check if all applications are online. Some services can take a time to be available.
 
 ## Setting up kafka connect connections
 

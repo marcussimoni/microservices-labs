@@ -62,4 +62,8 @@ public class PaymentsService {
         return repository.findByPurchaseIdIn(purchaseIds);
     }
 
+    public List<PaymentGatewayResponseDTO> findPayments() {
+        return paymentGatewayService.listPaymentsGateway();
+    }
+
 }

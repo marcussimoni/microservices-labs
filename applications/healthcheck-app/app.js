@@ -36,7 +36,7 @@ async function requestUrls() {
         }
     }
 
-    const allServicesHealth = results.filter(result => !result.ok) !== 0
+    const allServicesHealth = results.filter(result => !result.ok).length === 0
 
     return {
         allServicesHealth, results

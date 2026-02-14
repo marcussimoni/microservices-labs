@@ -13,7 +13,7 @@ network="infra_network"
 echo "CREATING $network DOCKER NETWORK"
 docker network create $network
 
-dockerComposes=("docker-compose-dbs" "docker-compose-messages" "docker-compose-utilities" "docker-compose-apps" "docker-compose-nginx")
+dockerComposes=("docker-compose-dbs" "docker-compose-rabbitmq" "docker-compose-kafka" "docker-compose-utilities" "docker-compose-apps" "docker-compose-nginx")
 
 for dockerCompose in "${dockerComposes[@]}"; do
     
