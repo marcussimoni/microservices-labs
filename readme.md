@@ -73,11 +73,17 @@ Once the containers are running, you can access the services the Dashboard appli
 
 ## Setting up kafka connect connections
 
-After all applications are up along side kafka connect, from ***scripts*** directory
+After Kafka connection was started, from ***scripts*** directory
 run the command to configure the connections used by kafka connect.
 
 ````
 sh setup-kafka-connect-connections.sh
+````
+
+Check if the connections were successfully created by accessing the Kafka Connectors
+
+````
+http://localhost:9094/connectors
 ````
 
 

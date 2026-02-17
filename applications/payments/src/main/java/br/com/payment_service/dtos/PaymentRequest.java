@@ -1,7 +1,7 @@
 package br.com.payment_service.dtos;
 
+import br.com.bookstore.commons.dto.Status;
 import br.com.payment_service.entities.EmailTemplate;
-import br.com.payment_service.entities.Payments;
 
 import java.math.BigDecimal;
 
@@ -11,7 +11,7 @@ public record PaymentRequest(
         String book,
         String status,
         BigDecimal amount,
-        Payments.Status paymentStatus,
+        Status paymentStatus,
         EmailTemplate template
 ) {
 }

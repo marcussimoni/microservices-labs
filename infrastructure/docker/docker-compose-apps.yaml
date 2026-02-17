@@ -1,5 +1,5 @@
 services:
-  # applications
+  # # applications
   bookstore-service:
     image: bookstore-service:latest
     container_name: bookstore-service
@@ -107,6 +107,7 @@ services:
       KAFKA_SERVER: kafka:9092
       USER_MANAGEMENT_HOST: http://user-management-service:8082/user-management-service
       BOOKSTORE_HOST: http://bookstore-service:8080/bookstore-service
+      COURIER_HOST: http://mockoon:3001/v1/courier/quotes
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
       OTEL_SERVICE_NAME: shipping-service

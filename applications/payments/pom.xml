@@ -112,8 +112,27 @@
             <version>2.3.0</version>
         </dependency>
         <!-- RESILIENCE DEPENDENCIES -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version> <!-- Use the latest version -->
+            <scope>provided</scope>
+        </dependency>
 
-
+        <!-- Bookstore commons -->
+        <dependency>
+            <groupId>br.com</groupId>
+            <artifactId>bookstore-commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!-- Bookstore commons -->
+        <!--  UUIDV7 DEPENDENCY -->
+        <dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>4.3.0</version> <!-- Check Maven Central for the latest version -->
+        </dependency>
+        <!--  UUIDV7 DEPENDENCY -->
     </dependencies>
 
     <build>
@@ -132,6 +151,19 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version> </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>

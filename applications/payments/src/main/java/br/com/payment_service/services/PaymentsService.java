@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
@@ -17,44 +18,51 @@ public class PaymentsService {
     private final PaymentsRepository repository;
     private final PaymentGatewayService paymentGatewayService;
     private final Logger log = LoggerFactory.getLogger(PaymentsService.class);
-    private final UserManagementService userManagementService;
     private final PaymentOutboxService paymentOutboxService;
 
     public PaymentsService(PaymentsRepository repository, PaymentGatewayService paymentGatewayService, UserManagementService userManagementService, PaymentOutboxService paymentOutboxService) {
         this.repository = repository;
         this.paymentGatewayService = paymentGatewayService;
-        this.userManagementService = userManagementService;
         this.paymentOutboxService = paymentOutboxService;
     }
 
     @Transactional
-    public Payments save(PaymentRequestDTO paymentDTO) {
+    public void save(PaymentCompletedEvent paymentDTO) {
 
         var payment = paymentDTO.toEntity();
 
         PaymentGatewayRequestDTO paymentGatewayRequestDTO = new PaymentGatewayRequestDTO(payment.getAmount());
 
         log.info("Sending payment to payment gateway");
-        PaymentGatewayResponseDTO paymentResponseDTO = paymentGatewayService.sendPayment(paymentGatewayRequestDTO);
-        payment.setStatus(paymentResponseDTO.status());
-        payment.setPaymentAt(paymentResponseDTO.timestamp());
 
+        PaymentGatewayResponse paymentResponse = paymentGatewayService.sendPayment(paymentGatewayRequestDTO);
+
+        createPaymentEvent(paymentResponse, payment);
+
+    }
+
+    private void savePayment(Payments payment) {
         log.info("Saving payment into database");
-        Payments saved = repository.save(payment);
+        repository.save(payment);
+    }
 
-        UserResponseDTO user = userManagementService.getUserById(paymentDTO.publicIdentifier());
+    private void createPaymentEvent(PaymentGatewayResponse paymentResponse, Payments payment) {
 
-        PaymentRequest paymentRequest = new PaymentRequest(
-                paymentDTO.purchaseId(), user.publicIdentifier(),
-                paymentDTO.book(), paymentResponseDTO.status().name(),
-                paymentDTO.amount(),
-                payment.getStatus(),
-                EmailTemplate.PAYMENT_STATUS);
+        log.info("Saving payment event");
+        payment.setPaymentAt(paymentResponse.timestamp());
+        payment.setStatus(paymentResponse.status());
+        payment.setTransactionId(paymentResponse.transactionId());
+        payment.setAuthorizationCode(paymentResponse.data().authorizationCode());
+        payment.setReceiptUrl(paymentResponse.data().receiptUrl());
+
+        savePayment(payment);
+
+        PaymentCompletedEvent paymentRequest = new PaymentCompletedEvent(
+                payment.getAmount(), payment.getPurchaseId(), payment.getCustomerId(), payment.getId(), paymentResponse.status(), ""
+        );
 
         log.info("Sending message to the payment-exchange");
         paymentOutboxService.savePaymentConfirmed(paymentRequest);
-
-        return saved;
 
     }
 
@@ -62,7 +70,7 @@ public class PaymentsService {
         return repository.findByPurchaseIdIn(purchaseIds);
     }
 
-    public List<PaymentGatewayResponseDTO> findPayments() {
+    public List<PaymentGatewayResponse> findPayments() {
         return paymentGatewayService.listPaymentsGateway();
     }
 

@@ -1,10 +1,17 @@
 package br.com.payment_service.entities;
 
+import com.fasterxml.uuid.Generators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
+@Data
 @Entity
+@NoArgsConstructor
 @Table(name = "payment_declined_outbox")
 public class PaymentDeclinedOutbox {
 
@@ -16,46 +23,20 @@ public class PaymentDeclinedOutbox {
     @Column(name = "public_identifier")
     private String publicIdentifier;
     private String status;
+    private BigDecimal amount;
+    @Column(name = "idempotency_key")
+    private UUID idempotencyKey;
 
-    public PaymentDeclinedOutbox() {
-    }
-
-    public PaymentDeclinedOutbox(Long purchaseId, String publicIdentifier, String status) {
+    public PaymentDeclinedOutbox(Long purchaseId, String publicIdentifier, String status, BigDecimal amount) {
         this.purchaseId = purchaseId;
         this.publicIdentifier = publicIdentifier;
         this.status = status;
+        this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getPurchaseId() {
-        return purchaseId;
-    }
-
-    public void setPurchaseId(Long purchaseId) {
-        this.purchaseId = purchaseId;
-    }
-
-    public String getPublicIdentifier() {
-        return publicIdentifier;
-    }
-
-    public void setPublicIdentifier(String publicIdentifier) {
-        this.publicIdentifier = publicIdentifier;
+    @PrePersist
+    public void prePersist() {
+        this.idempotencyKey = Generators.defaultTimeBasedGenerator().generate();
     }
 
 }

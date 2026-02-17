@@ -3,11 +3,12 @@ FROM bellsoft/liberica-openjdk-alpine-musl:21.0.8 AS builder
 WORKDIR builder
 
 COPY target/*.jar app.jar
+COPY --from=base-image:latest /opentelemetry-javaagent.jar opentelemetry-javaagent.jar 
 
 RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
-RUN apk --no-cache add curl
-RUN curl -L -o opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.20.1/opentelemetry-javaagent.jar
+# RUN apk --no-cache add curl
+# RUN curl -L -o opentelemetry-javaagent.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.20.1/opentelemetry-javaagent.jar
 
 FROM bellsoft/liberica-openjdk-alpine-musl:21.0.8
 

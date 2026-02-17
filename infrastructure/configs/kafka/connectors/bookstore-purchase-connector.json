@@ -17,8 +17,12 @@
         "topic.prefix": "postgres",
         "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
         "schema.history.internal.kafka.topic": "history.purchases",
-        "transforms": "unwrap",
+        "transforms": "unwrap,moveHeaders",
         "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.moveHeaders.type": "org.apache.kafka.connect.transforms.HeaderFrom$Value",
+        "transforms.moveHeaders.headers": "idempotency_key",
+        "transforms.moveHeaders.fields": "idempotency_key",
+        "transforms.moveHeaders.operation": "copy",
         "transforms.unwrap.drop.tombstones": "false",
         "decimal.handling.mode": "double"
     }

@@ -1,5 +1,6 @@
 package br.com.bookstore.service;
 
+import br.com.bookstore.commons.dto.OrderStatus;
 import br.com.bookstore.dto.*;
 import br.com.bookstore.model.Book;
 import br.com.bookstore.model.EmailTemplate;
@@ -59,7 +60,7 @@ public class PurchaseService {
         purchase.setCustomerId(authenticatedUser.publicIdentifier());
         purchase.setQuantity(1);
         purchase.setTotalPrice(totalPrice);
-        purchase.setStatus("WAITING APPROVAL");
+        purchase.setStatus(OrderStatus.ORDER_CREATED.getDescription());
 
         log.info("Saving purchase into database");
         Purchase savedPurchase = purchaseRepository.save(purchase);

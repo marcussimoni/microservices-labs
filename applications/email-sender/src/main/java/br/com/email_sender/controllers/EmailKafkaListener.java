@@ -1,7 +1,12 @@
 package br.com.email_sender.controllers;
 
+import br.com.bookstore.commons.dto.CourierQuote;
+import br.com.bookstore.commons.dto.OrderStatus;
+import br.com.bookstore.commons.dto.Shipping;
+import br.com.bookstore.commons.utils.KafkaCommonsUtils;
 import br.com.email_sender.dtos.KafkaEmailMessageRequest;
 import br.com.email_sender.dtos.KafkaOutboxMessage;
+import br.com.email_sender.entities.EmailMessage;
 import br.com.email_sender.entities.EmailTemplate;
 import br.com.email_sender.services.EmailMessageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,36 +50,21 @@ public class EmailKafkaListener {
     }
 
     @Transactional
-    @KafkaListener(topics = "postgres.payments.payment_declined_outbox", groupId = "email-sender-service")
-    public void receiveDeclinedMessage(String message) throws JsonProcessingException {
-        try {
-            log.info("Receiving declined payment event to process");
-
-            TypeReference<KafkaOutboxMessage<KafkaEmailMessageRequest>> typeReference = new TypeReference<>() {
-            };
-            KafkaOutboxMessage<KafkaEmailMessageRequest> kafkaOutboxMessage = objectMapper.readValue(message, typeReference);
-
-            KafkaEmailMessageRequest payload = kafkaOutboxMessage.getPayload();
-            emailMessageService.save(payload.toEntity(), EmailTemplate.PAYMENT_STATUS);
-        } catch (Exception e) {
-            log.error("Error during the process of event from listener", e);
-            throw e;
-        }
-
-    }
-
-    @Transactional
-    @KafkaListener(topics = "postgres.shipping.shipping_confirmed_outbox", groupId = "email-sender-service")
+    @KafkaListener(topics = "postgres.shipping.shipping_confirmed_outbox", groupId = "email-sender-payment-approved")
     public void receiveShippingConfirmedMessage(String message) throws JsonProcessingException {
         try {
+
             log.info("Receiving shipping confirmed event to process");
+            Shipping payload = KafkaCommonsUtils.getPayload(message, Shipping.class);
 
-            TypeReference<KafkaOutboxMessage<KafkaEmailMessageRequest>> typeReference = new TypeReference<>() {
-            };
-            KafkaOutboxMessage<KafkaEmailMessageRequest> kafkaOutboxMessage = objectMapper.readValue(message, typeReference);
+            CourierQuote courierQuote = KafkaCommonsUtils.getObject(payload.courierPayload(), CourierQuote.class);
 
-            KafkaEmailMessageRequest payload = kafkaOutboxMessage.getPayload();
-            emailMessageService.save(payload.toEntity(), EmailTemplate.SHIPPING);
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.setStatus(String.format(OrderStatus.PAYMENT_APPROVED.getDescription(), courierQuote.companyName(), courierQuote.estDeliveryDays()));
+            emailMessage.setPublicIdentifier(payload.publicIdentifier());
+
+            emailMessageService.save(emailMessage, EmailTemplate.SHIPPING);
+
         } catch (Exception e) {
             log.error("Error during the process of event from listener", e);
             throw e;

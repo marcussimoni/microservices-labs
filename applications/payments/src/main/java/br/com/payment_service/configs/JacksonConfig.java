@@ -1,5 +1,6 @@
 package br.com.payment_service.configs;
 
+import br.com.bookstore.commons.configs.ObjectMapperConfig;
 import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,12 +15,7 @@ public class JacksonConfig {
 
     @Bean
     public ObjectMapper objectMapperConfig() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return objectMapper;
+        return ObjectMapperConfig.objectMapperConfig();
     }
 
 }

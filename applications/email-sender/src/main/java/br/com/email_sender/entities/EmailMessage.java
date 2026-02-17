@@ -1,6 +1,7 @@
 package br.com.email_sender.entities;
 
 
+import br.com.bookstore.commons.dto.CourierQuote;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,6 +32,8 @@ public class EmailMessage {
     private String status;
 
     private String publicIdentifier;
+
+    private CourierQuote courierQuote;
 
     public EmailMessage() {
     }

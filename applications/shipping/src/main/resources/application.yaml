@@ -64,6 +64,22 @@ applications:
     host: ${USER_MANAGEMENT_HOST:http://localhost:8082/user-management-service}
   bookstore:
     host: ${BOOKSTORE_HOST:http://localhost:8080/bookstore-service}
+  courier-companies:
+    host: ${COURIER_HOST:http://localhost:3001/v1/courier/quotes}
+
+resilience4j:
+  retry:
+    instances:
+      courierQuotes:
+        maxAttempts: 5
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        enableRandomizedWait: true
+        randomizedWaitFactor: 0.5
+        retryExceptions:
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.client.HttpServerErrorException
 
 logging:
   level:

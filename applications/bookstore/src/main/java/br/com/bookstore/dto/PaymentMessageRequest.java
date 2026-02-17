@@ -10,6 +10,8 @@ public record PaymentMessageRequest(
         String email,
         String book,
         String status,
-        EmailTemplate template
+        EmailTemplate template,
+        @JsonProperty("courier_payload")
+        String courierPayload
 ) {
 }

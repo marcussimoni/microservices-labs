@@ -2,7 +2,8 @@ package br.com.shipping_service.entities;
 
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Transient;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +26,18 @@ public class Shipping {
 
     @Column(name = "public_identifier")
     private String publicIdentifier;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "courier_payload")
+    private CourierQuote courierPayload;
+
+    public CourierQuote getCourierPayload() {
+        return courierPayload;
+    }
+
+    public void setCourierPayload(CourierQuote courierPayload) {
+        this.courierPayload = courierPayload;
+    }
 
     public Shipping() {
         this.sentAt = LocalDateTime.now();

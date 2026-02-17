@@ -1,9 +1,9 @@
 package br.com.payment_service.services;
 
-import br.com.payment_service.dtos.PaymentRequest;
+import br.com.bookstore.commons.dto.Status;
+import br.com.payment_service.dtos.PaymentCompletedEvent;
 import br.com.payment_service.entities.PaymentConfirmedOutbox;
 import br.com.payment_service.entities.PaymentDeclinedOutbox;
-import br.com.payment_service.entities.Payments;
 import br.com.payment_service.repositories.PaymentConfirmedOutboxRepository;
 import br.com.payment_service.repositories.PaymentDeclinedOutboxRepository;
 import org.slf4j.Logger;
@@ -24,21 +24,20 @@ public class PaymentOutboxService {
     }
 
     @Transactional
-    public void savePaymentConfirmed(PaymentRequest request) {
+    public void savePaymentConfirmed(PaymentCompletedEvent event) {
 
         log.info("Preparing to send event");
 
-        if (request.paymentStatus().equals(Payments.Status.PAID)) {
-            PaymentConfirmedOutbox paymentConfirmedOutbox = new PaymentConfirmedOutbox(
-                    request.amount(), request.purchaseId(),
-                    request.publicIdentifier(), request.book(),
-                    request.status()
+        if (event.status().equals(Status.APPROVED)) {
+            var paymentConfirmedOutbox = new PaymentConfirmedOutbox(
+                event.amount(), event.purchaseId(), event.customerId(), "", event.status().toString()
             );
             paymentConfirmedOutboxRepository.save(paymentConfirmedOutbox);
             log.info("Payment confirmed");
-        }
-        if (request.paymentStatus().equals(Payments.Status.DENIED)) {
-            PaymentDeclinedOutbox paymentDeclinedOutbox = new PaymentDeclinedOutbox(request.purchaseId(), request.publicIdentifier(), request.status());
+        } else {
+            var paymentDeclinedOutbox = new PaymentDeclinedOutbox(
+                    event.purchaseId(), event.customerId(), event.status().toString(), event.amount()
+            );
             paymentDeclinedOutboxRepository.save(paymentDeclinedOutbox);
             log.info("Payment declined");
         }
