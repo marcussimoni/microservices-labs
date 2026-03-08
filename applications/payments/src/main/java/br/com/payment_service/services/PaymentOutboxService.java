@@ -30,13 +30,13 @@ public class PaymentOutboxService {
 
         if (event.status().equals(Status.APPROVED)) {
             var paymentConfirmedOutbox = new PaymentConfirmedOutbox(
-                event.amount(), event.purchaseId(), event.customerId(), "", event.status().toString()
+                event.amount(), event.orderId(), event.customerId(), "", event.status().toString()
             );
             paymentConfirmedOutboxRepository.save(paymentConfirmedOutbox);
             log.info("Payment confirmed");
         } else {
             var paymentDeclinedOutbox = new PaymentDeclinedOutbox(
-                    event.purchaseId(), event.customerId(), event.status().toString(), event.amount()
+                    event.orderId(), event.customerId(), event.status().toString(), event.amount()
             );
             paymentDeclinedOutboxRepository.save(paymentDeclinedOutbox);
             log.info("Payment declined");

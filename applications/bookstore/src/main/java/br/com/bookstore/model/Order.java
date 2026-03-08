@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "purchases")
-public class Purchase {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +17,7 @@ public class Purchase {
     private Book book;
     
     @Column(nullable = false)
-    private LocalDateTime purchaseDate;
+    private LocalDateTime orderDate;
     
     @Column(nullable = false)
     private String customerId; // In a real app, this would be linked to a User entity
@@ -33,7 +33,7 @@ public class Purchase {
     
     @PrePersist
     protected void onCreate() {
-        this.purchaseDate = LocalDateTime.now();
+        this.orderDate = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -52,12 +52,12 @@ public class Purchase {
         this.book = book;
     }
 
-    public LocalDateTime getPurchaseDate() {
-        return purchaseDate;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setPurchaseDate(LocalDateTime purchaseDate) {
-        this.purchaseDate = purchaseDate;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getCustomerId() {

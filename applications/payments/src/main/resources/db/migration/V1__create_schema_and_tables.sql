@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS payments.payments (
     id BIGSERIAL PRIMARY KEY,
     amount NUMERIC(15, 2) NOT NULL,
     payment_at TIMESTAMP NOT NULL,
-    purchase_id BIGINT NOT NULL,
+    order_id BIGINT NOT NULL,
     status VARCHAR(20) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

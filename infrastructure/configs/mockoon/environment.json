@@ -147,6 +147,25 @@
           "default": false,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "28bb5218-9fb4-49e3-ae3a-b51bb65e0105",
+          "body": "{\n  \"success\": true,\n  \"transaction_id\": \"txn_8842910\",\n  \"status\": \"APPROVED\",\n  \"timestamp\": \"2026-02-17T11:30:00Z\",\n  \"data\": {\n    \"authorization_code\": \"AUTH12345\",\n    \"receipt_url\": \"https://api.mock.com/receipts/8842910\"\n  },\n  \"error\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
       "responseMode": "RANDOM",

@@ -1,5 +1,5 @@
 {
-    "name": "postgres-bookstore-purchase-connector-source",
+    "name": "postgres-bookstore-order-connector-source",
     "config": {
         "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
         "tasks.max": "1",
@@ -11,12 +11,12 @@
         "plugin.name": "pgoutput",
         "publication.name": "dbz_publication",
         "publication.autocreate.mode": "disabled",
-        "slot.name": "bookstore_purchases_slot",
+        "slot.name": "bookstore_orders_slot",
         "snapshot.mode": "initial",
-        "table.include.list": "bookstore.purchase_outbox",
+        "table.include.list": "bookstore.order_outbox",
         "topic.prefix": "postgres",
         "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
-        "schema.history.internal.kafka.topic": "history.purchases",
+        "schema.history.internal.kafka.topic": "history.orders",
         "transforms": "unwrap,moveHeaders",
         "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
         "transforms.moveHeaders.type": "org.apache.kafka.connect.transforms.HeaderFrom$Value",

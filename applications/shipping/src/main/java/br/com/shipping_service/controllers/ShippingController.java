@@ -71,14 +71,14 @@ public class ShippingController {
                     )
             }
     )
-    @GetMapping("/public-identifier/{publicIdentifier}")
+    @GetMapping("/public-identifier/{customerId}")
     public List<Shipping> getByPublicIdentifier(
             @Parameter(
                     description = "Public tracking or reference identifier for the shipment",
                     example = "TRACK-123456789"
             )
-            @PathVariable String publicIdentifier
+            @PathVariable String customerId
     ) {
-        return shippingService.findByPublicIdentifier(publicIdentifier);
+        return shippingService.findByPublicIdentifier(customerId);
     }
 }

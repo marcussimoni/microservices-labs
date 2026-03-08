@@ -8,13 +8,13 @@ CREATE TABLE IF NOT EXISTS user_management.tb_user (
     email VARCHAR(120) NOT NULL UNIQUE,
     state VARCHAR(100) NOT NULL,
     city VARCHAR(100) NOT NULL,
-    public_identifier VARCHAR(100) NOT NULL UNIQUE,
+    customer_id VARCHAR(100) NOT NULL UNIQUE,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
 );
 
-INSERT INTO tb_user (name, email, state, city, public_identifier, active, created_at)
+INSERT INTO tb_user (name, email, state, city, customer_id, active, created_at)
 VALUES
   ('Admin User', 'admin@example.com', 'SAO PAULO',  'SAO PAULO', 'd858de5b-ed02-4c89-ac6a-d899a698d4de', true, CURRENT_TIMESTAMP),
   ('Regular User', 'user@example.com', 'SAO PAULO',  'SAO PAULO', '3292f0cb-cc5d-480e-b5b7-7619e676c8f5', true, CURRENT_TIMESTAMP);

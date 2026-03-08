@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public record PaymentRequestDTO(
         BigDecimal amount,
-        Long purchaseId,
-        String publicIdentifier,
+        Long orderId,
+        String customerId,
         String book
 ) {}

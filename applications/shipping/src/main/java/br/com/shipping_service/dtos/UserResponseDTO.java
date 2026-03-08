@@ -7,6 +7,6 @@ public record UserResponseDTO(
         String email,
         String city,
         String state,
-        String publicIdentifier,
+        String customerId,
         LocalDateTime createdAt
 ) {}

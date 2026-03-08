@@ -8,7 +8,7 @@ import br.com.bookstore.dto.PaymentMessageRequest;
 import br.com.bookstore.model.EmailTemplate;
 import br.com.bookstore.repository.ProcessedEventRepository;
 import br.com.bookstore.service.ProcessedEventService;
-import br.com.bookstore.service.PurchaseService;
+import br.com.bookstore.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +32,7 @@ public class PaymentKafkaListener {
     private static final String PURCHASE_PROCESS_ACCEPTED = "PURCHASE_PROCESS_ACCEPTED";
     private static final String ORDER_SHIPPED = "ORDER_SHIPPED";
     public static final String MESSAGE_ALREADY_PROCESSED_TO_KEY = "Message already processed to key: {}";
-    private final PurchaseService purchaseService;
+    private final OrderService orderService;
     private final ProcessedEventService processedEventService;
     private final Logger log = LoggerFactory.getLogger(PaymentKafkaListener.class);
 
@@ -52,7 +52,7 @@ public class PaymentKafkaListener {
             }
 
             PaymentMessageRequest dto = KafkaCommonsUtils.getPayload(message, PaymentMessageRequest.class);
-            purchaseService.updatePurchase(dto.purchaseId(), OrderStatus.PAYMENT_APPROVED.getDescription());
+            orderService.updateOrder(dto.orderId(), OrderStatus.PAYMENT_APPROVED.getDescription());
 
         } catch (Exception e) {
             throw e;
@@ -76,7 +76,7 @@ public class PaymentKafkaListener {
             }
             
             PaymentMessageRequest dto = KafkaCommonsUtils.getPayload(message, PaymentMessageRequest.class);
-            purchaseService.updatePurchase(dto.purchaseId(), OrderStatus.PAYMENT_DECLINED.getDescription());
+            orderService.updateOrder(dto.orderId(), OrderStatus.PAYMENT_DECLINED.getDescription());
 
         } catch (Exception e) {
             log.error("Error during the process of event from listener", e);
@@ -107,7 +107,7 @@ public class PaymentKafkaListener {
 
             var status = String.format(OrderStatus.ORDER_SHIPPED.getDescription(), quote.companyName(), quote.estDeliveryDays());
 
-            purchaseService.updatePurchase(dto.purchaseId(), status);
+            orderService.updateOrder(dto.orderId(), status);
 
         } catch (Exception e) {
             log.error("Error during the process of event from listener", e);

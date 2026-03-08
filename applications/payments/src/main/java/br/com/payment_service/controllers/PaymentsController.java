@@ -28,7 +28,7 @@ public class PaymentsController {
 
     @Operation(
         summary = "Create a new payment",
-        description = "Registers a new payment with its amount, status, and associated purchase ID.",
+        description = "Registers a new payment with its amount, status, and associated order ID.",
         responses = {
             @ApiResponse(
                 responseCode = "201",
@@ -44,14 +44,14 @@ public class PaymentsController {
     )
 
     @GetMapping
-    public ResponseEntity<List<PaymentResponseDTO>> findByPurchaseIds(
+    public ResponseEntity<List<PaymentResponseDTO>> findByOrderIds(
             @Parameter(
-                description = "List of purchase IDs to filter payments by",
+                description = "List of order IDs to filter payments by",
                 required = true,
                 example = "1,2,3"
             )
-            @RequestParam List<Long> purchaseIds) {
-        List<Payments> payments = service.findByPurchaseIds(purchaseIds);
+            @RequestParam List<Long> orderIds) {
+        List<Payments> payments = service.findByOrderIds(orderIds);
         return ResponseEntity.ok(payments.stream().map(PaymentResponseDTO::fromEntity).toList());
     }
 

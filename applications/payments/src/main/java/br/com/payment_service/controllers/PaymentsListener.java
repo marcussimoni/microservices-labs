@@ -26,7 +26,7 @@ public class PaymentsListener {
     private final String PURCHASE_PROCESS = "PURCHASE_PROCESS";
 
     @Transactional
-    @KafkaListener(topics = "postgres.bookstore.purchase_outbox", groupId = "payment-service-purchases")
+    @KafkaListener(topics = "postgres.bookstore.order_outbox", groupId = "payment-service-orders")
     public void receiveMessage(String message, MessageHeaders headers) throws JsonProcessingException {
         try {
 

@@ -10,8 +10,8 @@ public record Shipping(
     String city,
     String book,
     LocalDateTime sentAt,
-    @JsonProperty("public_identifier")
-    String publicIdentifier,
+    @JsonProperty("customer_id")
+    String customerId,
     @JsonProperty("courier_payload")
     String courierPayload
 ) {}

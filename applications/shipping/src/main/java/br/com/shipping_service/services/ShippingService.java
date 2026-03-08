@@ -1,7 +1,7 @@
 package br.com.shipping_service.services;
 
 import br.com.shipping_service.dtos.CourierQuoteResponse;
-import br.com.shipping_service.dtos.PurchaseDTO;
+import br.com.shipping_service.dtos.OrderDTO;
 import br.com.shipping_service.dtos.ShippingRequestDTO;
 import br.com.shipping_service.dtos.UserResponseDTO;
 import br.com.shipping_service.entities.Shipping;
@@ -32,23 +32,23 @@ public class ShippingService {
     @Transactional
     public void prepareToDelivery(ShippingRequestDTO dto) {
 
-        UserResponseDTO user = userManagementService.getUserById(dto.publicIdentifier());
-        PurchaseDTO purchase = bookstoreService.getPurchaseById(dto.purchaseId());
+        UserResponseDTO user = userManagementService.getUserById(dto.customerId());
+        OrderDTO order = bookstoreService.getOrderById(dto.orderId());
         CourierQuoteResponse courierQuoteResponse = courierService.courierQuote();
 
         final var courierQuote = courierQuoteResponse.toCourierQuote();
 
         Shipping shipping = new Shipping();
-        shipping.setBook(purchase.book().title());
+        shipping.setBook(order.book().title());
         shipping.setCity(user.city());
-        shipping.setPublicIdentifier(user.publicIdentifier());
+        shipping.setCustomerId(user.customerId());
         shipping.setCourierPayload(courierQuote);
 
         repository.save(shipping);
 
         ShippingConfirmedOutbox shippingConfirmedOutbox = new ShippingConfirmedOutbox(
-                purchase.totalPrice(), purchase.id(), user.publicIdentifier(),
-                purchase.book().title(), purchase.status(), courierQuote
+                order.totalPrice(), order.id(), user.customerId(),
+                order.book().title(), order.status(), courierQuote
         );
 
         shippingConfirmedOutboxService.saveShippingOutbox(shippingConfirmedOutbox);
@@ -62,8 +62,8 @@ public class ShippingService {
     }
 
 
-    public List<Shipping> findByPublicIdentifier(String publicIdentifier) {
-        return repository.findByPublicIdentifier(publicIdentifier);
+    public List<Shipping> findByPublicIdentifier(String customerId) {
+        return repository.findByCustomerId(customerId);
     }
 
 }

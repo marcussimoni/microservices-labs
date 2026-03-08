@@ -18,18 +18,18 @@ public class PaymentDeclinedOutbox {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "purchase_id")
-    private Long purchaseId;
-    @Column(name = "public_identifier")
-    private String publicIdentifier;
+    @Column(name = "order_id")
+    private Long orderId;
+    @Column(name = "customer_id")
+    private String customerId;
     private String status;
     private BigDecimal amount;
     @Column(name = "idempotency_key")
     private UUID idempotencyKey;
 
-    public PaymentDeclinedOutbox(Long purchaseId, String publicIdentifier, String status, BigDecimal amount) {
-        this.purchaseId = purchaseId;
-        this.publicIdentifier = publicIdentifier;
+    public PaymentDeclinedOutbox(Long orderId, String customerId, String status, BigDecimal amount) {
+        this.orderId = orderId;
+        this.customerId = customerId;
         this.status = status;
         this.amount = amount;
     }

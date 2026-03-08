@@ -28,7 +28,7 @@ public class EmailMessageService {
     @Transactional
     public void save(EmailMessage emailMessage, EmailTemplate template) {
 
-        UserResponseDTO user = userManagementService.getUserById(emailMessage.getPublicIdentifier());
+        UserResponseDTO user = userManagementService.getUserById(emailMessage.getCustomerId());
         emailMessage.setEmail(user.email());
         emailMessage.setUserName(user.name());
         emailMessage.setCity(user.city());

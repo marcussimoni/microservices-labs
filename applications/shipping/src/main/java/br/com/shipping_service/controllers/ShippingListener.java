@@ -35,7 +35,7 @@ public class ShippingListener {
 
             ShippingRequestDTO dto = KafkaCommonsUtils.getPayload(message, ShippingRequestDTO.class);
 
-            log.info("Received Message for Shipping: {}", dto.purchaseId());
+            log.info("Received Message for Shipping: {}", dto.orderId());
 
             log.info("Preparing to process event: {}", dto);
 

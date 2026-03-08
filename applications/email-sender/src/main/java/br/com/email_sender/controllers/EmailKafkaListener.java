@@ -61,7 +61,7 @@ public class EmailKafkaListener {
 
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.setStatus(String.format(OrderStatus.PAYMENT_APPROVED.getDescription(), courierQuote.companyName(), courierQuote.estDeliveryDays()));
-            emailMessage.setPublicIdentifier(payload.publicIdentifier());
+            emailMessage.setCustomerId(payload.customerId());
 
             emailMessageService.save(emailMessage, EmailTemplate.SHIPPING);
 

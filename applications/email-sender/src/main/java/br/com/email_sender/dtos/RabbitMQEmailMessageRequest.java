@@ -4,7 +4,7 @@ import br.com.email_sender.entities.EmailMessage;
 import br.com.email_sender.entities.EmailTemplate;
 
 public record RabbitMQEmailMessageRequest(
-        String publicIdentifier,
+        String customerId,
         String book,
         String status,
         EmailTemplate template
@@ -12,7 +12,7 @@ public record RabbitMQEmailMessageRequest(
     public EmailMessage toEntity() {
         return new EmailMessage(
                 book,
-                publicIdentifier
+                customerId
         );
     }
 

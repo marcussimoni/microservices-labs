@@ -1,6 +1,6 @@
 package br.com.bookstore.dto;
 
-public record PurchaseRequest(
+public record OrderRequest(
         Long bookId
 ) {
 }

@@ -3,10 +3,10 @@ package br.com.email_sender.dtos;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record PurchaseDTO(
+public record OrderDTO(
         Long id,
         String book,
-        LocalDateTime purchaseDate,
+        LocalDateTime orderDate,
         Integer quantity,
         BigDecimal totalPrice
 ) {}

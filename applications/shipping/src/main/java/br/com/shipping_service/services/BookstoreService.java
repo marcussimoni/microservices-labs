@@ -1,6 +1,6 @@
 package br.com.shipping_service.services;
 
-import br.com.shipping_service.dtos.PurchaseDTO;
+import br.com.shipping_service.dtos.OrderDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,14 +20,14 @@ public class BookstoreService {
         this.restTemplate = restTemplate;
     }
 
-    public PurchaseDTO getPurchaseById(Long id) {
+    public OrderDTO getOrderById(Long id) {
         String url = UriComponentsBuilder
                 .fromHttpUrl(bookstoreHost)
-                .path("/purchases/id/{id}")
+                .path("/orders/id/{id}")
                 .buildAndExpand(id)
                 .toUriString();
 
-        return restTemplate.getForObject(url, PurchaseDTO.class);
+        return restTemplate.getForObject(url, OrderDTO.class);
     }
 
 }

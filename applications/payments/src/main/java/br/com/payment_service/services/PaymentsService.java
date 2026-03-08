@@ -58,7 +58,7 @@ public class PaymentsService {
         savePayment(payment);
 
         PaymentCompletedEvent paymentRequest = new PaymentCompletedEvent(
-                payment.getAmount(), payment.getPurchaseId(), payment.getCustomerId(), payment.getId(), paymentResponse.status(), ""
+                payment.getAmount(), payment.getOrderId(), payment.getCustomerId(), payment.getId(), paymentResponse.status(), ""
         );
 
         log.info("Sending message to the payment-exchange");
@@ -66,8 +66,8 @@ public class PaymentsService {
 
     }
 
-    public List<Payments> findByPurchaseIds(List<Long> purchaseIds) {
-        return repository.findByPurchaseIdIn(purchaseIds);
+    public List<Payments> findByOrderIds(List<Long> orderIds) {
+        return repository.findByOrderIdIn(orderIds);
     }
 
     public List<PaymentGatewayResponse> findPayments() {

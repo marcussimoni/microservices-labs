@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ShippingRepository extends JpaRepository<Shipping, Long> {
 
-    List<Shipping> findByPublicIdentifier(String publicIdentifier);
+    List<Shipping> findByCustomerId(String customerId);
 
 }

@@ -33,6 +33,6 @@ public class UserService {
 
     @Cacheable(value = "users", key = "#id", unless = "#result == null")
     public User findById(String id) {
-        return repository.findByPublicIdentifier(id);
+        return repository.findByCustomerId(id);
     }
 }

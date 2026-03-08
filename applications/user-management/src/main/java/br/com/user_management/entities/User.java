@@ -31,8 +31,8 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @Column(name = "public_identifier")
-    private String publicIdentifier;
+    @Column(name = "customer_id")
+    private String customerId;
 
     @Column
     private String city;
@@ -49,7 +49,7 @@ public class User {
         this.active = active;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.publicIdentifier = UUID.randomUUID().toString();
+        this.customerId = UUID.randomUUID().toString();
     }
 
     @PreUpdate
@@ -93,8 +93,8 @@ public class User {
         return updatedAt;
     }
 
-    public String getPublicIdentifier() {
-        return publicIdentifier;
+    public String getCustomerId() {
+        return customerId;
     }
 
     public String getCity() {

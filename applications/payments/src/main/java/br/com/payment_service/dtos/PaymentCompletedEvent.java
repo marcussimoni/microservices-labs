@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 public record PaymentCompletedEvent(
         BigDecimal amount,
-        @JsonProperty("purchase_id")
-        Long purchaseId,
-        @JsonProperty("public_identifier")
+        @JsonProperty("order_id")
+        Long orderId,
+        @JsonProperty("customer_id")
         String customerId,
         @JsonProperty("payment_id")
         Long paymentId,
@@ -21,7 +21,7 @@ public record PaymentCompletedEvent(
     public Payments toEntity() {
         Payments payment = new Payments();
         payment.setAmount(amount);
-        payment.setPurchaseId(purchaseId);
+        payment.setOrderId(orderId);
         payment.setCustomerId(customerId);
         return payment;
     }

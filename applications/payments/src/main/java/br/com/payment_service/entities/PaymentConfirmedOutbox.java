@@ -19,20 +19,20 @@ public class PaymentConfirmedOutbox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal amount;
-    @Column(name = "purchase_id")
-    private Long purchaseId;
-    @Column(name = "public_identifier")
-    private String publicIdentifier;
+    @Column(name = "order_id")
+    private Long orderId;
+    @Column(name = "customer_id")
+    private String customerId;
     private String book;
     private String status;
     @Column(name = "idempotency_key")
     private UUID idempotencyKey;
 
-    public PaymentConfirmedOutbox(BigDecimal amount, Long purchaseId, String publicIdentifier, String book, String status) {
+    public PaymentConfirmedOutbox(BigDecimal amount, Long orderId, String customerId, String book, String status) {
         this.id = id;
         this.amount = amount;
-        this.purchaseId = purchaseId;
-        this.publicIdentifier = publicIdentifier;
+        this.orderId = orderId;
+        this.customerId = customerId;
         this.book = book;
         this.status = status;
     }

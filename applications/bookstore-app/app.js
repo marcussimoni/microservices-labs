@@ -2,7 +2,7 @@
 const API_BASE_URL = 'http://localhost:8080/bookstore-service';
 const API_ENDPOINTS = {
     BOOKS: `${API_BASE_URL}/books`,
-    PURCHASES: `${API_BASE_URL}/purchases`,
+    PURCHASES: `${API_BASE_URL}/orders`,
     AUTHENTICATED_USER: 'http://localhost:8082/users/me'
 };
 
@@ -214,7 +214,7 @@ function renderPurchasedBooks(purchases) {
                     <div class="book-info">
                         <h3>${p.book.title}</h3>
                         <p>${p.book.author}</p>
-                        <p>Purchased on: ${new Date(p.purchaseDate).toLocaleDateString()}</p>
+                        <p>Purchased on: ${new Date(p.orderDate).toLocaleDateString()}</p>
                         <P>Order status: ${p.status}</p>
                     </div>
                 </div>

@@ -26,8 +26,8 @@ public class Payments {
     @Column(name = "payment_at", nullable = false)
     private OffsetDateTime paymentAt;
 
-    @Column(name = "purchase_id", nullable = false)
-    private Long purchaseId;
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

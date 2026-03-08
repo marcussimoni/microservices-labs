@@ -24,8 +24,8 @@ public class Shipping {
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
-    @Column(name = "public_identifier")
-    private String publicIdentifier;
+    @Column(name = "customer_id")
+    private String customerId;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "courier_payload")
@@ -67,12 +67,12 @@ public class Shipping {
         return sentAt;
     }
 
-    public String getPublicIdentifier() {
-        return publicIdentifier;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setPublicIdentifier(String publicIdentifier) {
-        this.publicIdentifier = publicIdentifier;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public Long getId() {

@@ -1,20 +1,20 @@
 -- Payment tables
 CREATE TABLE IF NOT EXISTS payments.payment_confirmed_outbox (
     id BIGSERIAL PRIMARY KEY,
-    purchase_id INTEGER NOT NULL,
+    order_id INTEGER NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     book VARCHAR(100),
     status VARCHAR(100),
-    public_identifier VARCHAR(100)
+    customer_id VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS payments.payment_declined_outbox (
      id BIGSERIAL PRIMARY KEY,
-     purchase_id INTEGER NOT NULL,
+     order_id INTEGER NOT NULL,
      amount DECIMAL(10, 2) NOT NULL,
      book VARCHAR(100),
      status VARCHAR(100),
-     public_identifier VARCHAR(100)
+     customer_id VARCHAR(100)
  );
 
 -- used by debezium for replication

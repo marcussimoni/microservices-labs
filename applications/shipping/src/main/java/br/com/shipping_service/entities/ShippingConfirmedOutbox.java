@@ -16,10 +16,10 @@ public class ShippingConfirmedOutbox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal amount;
-    @Column(name = "purchase_id")
-    private Long purchaseId;
-    @Column(name = "public_identifier")
-    private String publicIdentifier;
+    @Column(name = "order_id")
+    private Long orderId;
+    @Column(name = "customer_id")
+    private String customerId;
     private String book;
     private String status;
     @JdbcTypeCode(SqlTypes.JSON)
@@ -36,10 +36,10 @@ public class ShippingConfirmedOutbox {
     public ShippingConfirmedOutbox() {
     }
 
-    public ShippingConfirmedOutbox(BigDecimal amount, Long purchaseId, String publicIdentifier, String book, String status, CourierQuote courierPayload) {
+    public ShippingConfirmedOutbox(BigDecimal amount, Long orderId, String customerId, String book, String status, CourierQuote courierPayload) {
         this.amount = amount;
-        this.purchaseId = purchaseId;
-        this.publicIdentifier = publicIdentifier;
+        this.orderId = orderId;
+        this.customerId = customerId;
         this.book = book;
         this.status = status;
         this.courierPayload = courierPayload;
@@ -69,20 +69,20 @@ public class ShippingConfirmedOutbox {
         this.amount = amount;
     }
 
-    public Long getPurchaseId() {
-        return purchaseId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setPurchaseId(Long purchaseId) {
-        this.purchaseId = purchaseId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public String getPublicIdentifier() {
-        return publicIdentifier;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setPublicIdentifier(String publicIdentifier) {
-        this.publicIdentifier = publicIdentifier;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public String getBook() {

@@ -31,31 +31,31 @@ public class EmailMessage {
 
     private String status;
 
-    private String publicIdentifier;
+    private String customerId;
 
     private CourierQuote courierQuote;
 
     public EmailMessage() {
     }
 
-    public EmailMessage(String book, String publicIdentifier) {
+    public EmailMessage(String book, String customerId) {
         this.book = book;
-        this.publicIdentifier = publicIdentifier;
+        this.customerId = customerId;
         this.status = "WAITING_PAYMENT";
     }
 
-    public EmailMessage(String book, String publicIdentifier, String status) {
+    public EmailMessage(String book, String customerId, String status) {
         this.book = book;
-        this.publicIdentifier = publicIdentifier;
+        this.customerId = customerId;
         this.status = status;
     }
 
-    public String getPublicIdentifier() {
-        return publicIdentifier;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setPublicIdentifier(String publicIdentifier) {
-        this.publicIdentifier = publicIdentifier;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public ObjectId getId() {

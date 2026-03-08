@@ -11,7 +11,7 @@ public record PaymentResponseDTO(
         Long id,
         BigDecimal amount,
         OffsetDateTime paymentAt,
-        Long purchaseId,
+        Long orderId,
         Status status
 ) {
 
@@ -20,7 +20,7 @@ public record PaymentResponseDTO(
                 entity.getId(),
                 entity.getAmount(),
                 entity.getPaymentAt(),
-                entity.getPurchaseId(),
+                entity.getOrderId(),
                 entity.getStatus()
         );
     }

@@ -6,8 +6,8 @@ import br.com.payment_service.entities.EmailTemplate;
 import java.math.BigDecimal;
 
 public record PaymentRequest(
-        Long purchaseId,
-        String publicIdentifier,
+        Long orderId,
+        String customerId,
         String book,
         String status,
         BigDecimal amount,

@@ -5,8 +5,8 @@ import br.com.email_sender.entities.EmailTemplate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record KafkaEmailMessageRequest(
-        @JsonProperty("public_identifier")
-        String publicIdentifier,
+        @JsonProperty("customer_id")
+        String customerId,
         String book,
         String status,
         EmailTemplate template
@@ -14,7 +14,7 @@ public record KafkaEmailMessageRequest(
     public EmailMessage toEntity() {
         return new EmailMessage(
                 book,
-                publicIdentifier,
+                customerId,
                 status
         );
     }

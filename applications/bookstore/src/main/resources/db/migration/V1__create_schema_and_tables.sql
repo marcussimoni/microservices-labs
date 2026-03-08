@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS bookstore.books (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Purchases table
-CREATE TABLE IF NOT EXISTS bookstore.purchases (
+-- Orders table
+CREATE TABLE IF NOT EXISTS bookstore.orders (
     id BIGSERIAL PRIMARY KEY,
     book_id BIGINT NOT NULL,
-    purchase_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    order_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     customer_id VARCHAR(255) NOT NULL,
     quantity INTEGER NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
@@ -24,14 +24,14 @@ CREATE TABLE IF NOT EXISTS bookstore.purchases (
     FOREIGN KEY (book_id) REFERENCES bookstore.books(id) ON DELETE CASCADE
 );
 
--- Purchases table
-CREATE TABLE IF NOT EXISTS bookstore.purchase_outbox (
+-- Orders table
+CREATE TABLE IF NOT EXISTS bookstore.order_outbox (
     id BIGSERIAL PRIMARY KEY,
-    purchase_id INTEGER NOT NULL,
+    order_id INTEGER NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     book VARCHAR(100),
-    public_identifier VARCHAR(100)
+    customer_id VARCHAR(100)
 );
 
 -- used by debezium for replication
- CREATE PUBLICATION dbz_publication FOR TABLE bookstore.purchase_outbox;
+CREATE PUBLICATION dbz_publication FOR TABLE bookstore.order_outbox;

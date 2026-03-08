@@ -9,7 +9,7 @@ public record UserResponseDto(
         String email,
         String state,
         String city,
-        String publicIdentifier,
+        String customerId,
         LocalDateTime createdAt
 ) {
     public static UserResponseDto fromEntity(User user) {
@@ -18,7 +18,7 @@ public record UserResponseDto(
                 user.getEmail(),
                 user.getState(),
                 user.getCity(),
-                user.getPublicIdentifier(),
+                user.getCustomerId(),
                 user.getCreatedAt()
         );
     }
