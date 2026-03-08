@@ -23,7 +23,8 @@ EXPOSE 8080
 
 ENTRYPOINT ["java", \
     "-javaagent:/app/opentelemetry-javaagent.jar", \
-    "-Dotel.instrumentation.common.default-enabled=false", \
+    "-Dotel.instrumentation.common.default-enabled=true", \
+    "-Dotel.instrumentation.micrometer.enabled=true", \ 
     "-Dotel.instrumentation.spring-web.enabled=true", \
     "-Xms64m", "-Xmx256m", \
     "-XX:+UseSerialGC", \
