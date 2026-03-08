@@ -1,4 +1,3 @@
-
 server:
   port: 8084
   servlet:
@@ -6,6 +5,9 @@ server:
   shutdown: graceful
   graceful-shutdown:
     timeout: 30s
+  tomcat:
+    threads:
+      max: 2
 
 spring:
   application:
@@ -58,6 +60,10 @@ spring:
         spring.json.trusted.packages: '*'
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+
+  threads:
+    virtual:
+      enabled: true
 
 applications:
   user-management:

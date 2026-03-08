@@ -22,4 +22,14 @@ COPY --from=builder /builder/opentelemetry-javaagent.jar/ ./opentelemetry-javaag
 
 EXPOSE 8081
 
-ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-Dotel.instrumentation.micrometer.enabled=true", "-Xms128m", "-Xmx256m", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:+HeapDumpOnOutOfMemoryError", "-jar", "app.jar"]
+# ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-Dotel.instrumentation.micrometer.enabled=true", "-Xms128m", "-Xmx256m", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=200", "-XX:+HeapDumpOnOutOfMemoryError", "-jar", "app.jar"]
+
+ENTRYPOINT ["java", \
+    "-javaagent:/app/opentelemetry-javaagent.jar", \
+    "-Dotel.instrumentation.common.default-enabled=false", \
+    "-Dotel.instrumentation.spring-web.enabled=true", \
+    "-Xms64m", "-Xmx256m", \
+    "-XX:+UseSerialGC", \
+    "-XX:TieredStopAtLevel=1", \
+    "-XX:MaxMetaspaceSize=160m", \
+    "-jar", "app.jar"]

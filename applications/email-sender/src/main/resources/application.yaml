@@ -5,6 +5,9 @@ server:
   shutdown: graceful  # habilita shutdown gracioso
   graceful-shutdown:
     timeout: 30s
+  tomcat:
+    threads:
+      max: 2
 
 spring:
   application:
@@ -21,7 +24,10 @@ spring:
     properties:
       mail.smtp.auth: false
       mail.smtp.starttls.enable: false
-
+  threads:
+    virtual:
+      enabled: true
+      
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: 5672

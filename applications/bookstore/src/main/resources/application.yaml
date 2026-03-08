@@ -9,6 +9,9 @@ server:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain
     min-response-size: 1024
+  tomcat:
+    threads:
+      max: 2
 
 spring:
   application:
@@ -26,6 +29,9 @@ spring:
       maxLifetime: 1800000
       connectionTimeout: 30000
       pool-name: bookstore-HikariCP
+  threads:
+    virtual:
+      enabled: true
 
   jpa:
     hibernate:
